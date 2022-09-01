@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { fromEvent } from 'rxjs';
+import { fromEvent, Observable } from 'rxjs';
 
 @Component({
   selector: 'creational-operators',
@@ -7,13 +7,14 @@ import { fromEvent } from 'rxjs';
   styles: [],
 })
 export class CreationalOperatorsComponent implements OnInit {
-  click = fromEvent(document, 'click');
-  counter: number = 0;
+  clickObservable: Observable<Event> = fromEvent(document, 'click');
 
   ngOnInit(): void {
-    this.click.subscribe(() => {
-      this.counter++;
-      console.log(`User clicked ${this.counter} times on the screen`);
+    this.subscribeToObservable();
+  }
+  private subscribeToObservable() {
+    this.clickObservable.subscribe(() => {
+      console.log(`of times the user clicked on the screen`);
     });
   }
 }
