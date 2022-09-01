@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { from, Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 import { User } from 'src/app/interfaces/user';
 
 @Component({
@@ -39,17 +39,13 @@ export class PipeableOperatosComponent implements OnInit {
   users: Array<User> = [];
   user: User | void = undefined;
 
-  getUser(id: string) {
-    this.users$
-      .pipe(filter((user: User) => user._id === id))
-      .subscribe((data) => {
-        this.users.push(data);
-      });
+  ngOnInit(): void {
+    this.getFirstUser();
   }
 
-  ngOnInit(): void {
-    this.getUser('1');
-    // this.getUser('2');
-    // this.getUser('3');
+  private getFirstUser() {
+    this.users$.pipe(first()).subscribe((data) => {
+      this.user = data;
+    });
   }
 }
